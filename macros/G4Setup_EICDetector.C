@@ -29,7 +29,7 @@
 
 #include <G4_User.C>
 #include <G4_World.C>
-#include <G4_hFarFwdBeamLine_EIC.C>
+#include <G4_hFarFwdBeamLine_EIC_Realistic.C>
 #include <G4_hFarBwdBeamLine_EIC.C>
 #include <G4_mRICH.C>
 

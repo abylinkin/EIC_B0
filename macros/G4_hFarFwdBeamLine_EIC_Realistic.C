@@ -11,7 +11,7 @@
 #include <eicg4zdc/EICG4ZDCHitTree.h>
 #include <eicg4zdc/EICG4ZDCNtuple.h>
 #include <eicg4zdc/EICG4ZDCSubsystem.h>
-//#include <EICG4B0ZDCSubsystem.h>
+
 #include <difftagganab0/EICG4B0ZDCSubsystem.h>
 
 #include <g4main/PHG4Reco.h>
@@ -19,6 +19,7 @@
 #include <TSystem.h>
 
 R__LOAD_LIBRARY(libg4detectors.so)
+
 R__LOAD_LIBRARY(libdifftagganab0.so)
 
 float PosFlip(float pos);
