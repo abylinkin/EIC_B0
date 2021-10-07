@@ -409,7 +409,7 @@ void hFarFwdDefineDetectorsIP6(PHG4Reco *g4Reco)
         const double b0_radius = 20.0; //outer radius of B0-detector
         const double spanning_angle = 240; //spanning angle Packman
         const double b0Ecal_z = 48;
-        double start_angle = spanning_angle - 360; //start angle Packman
+        double start_angle = 60; //start angle Packman
       
         for (int i = 0; i < b0DetNr; i++)
         {
@@ -562,7 +562,7 @@ void hFarFwdDefineDetectorsIP6(PHG4Reco *g4Reco)
 	    const double b0_radius = 20.0; //outer radius of B0-detector
 	    const double spanning_angle = 240; //spanning angle Packman
 	    const double b0Ecal_z = 48;
-	    double start_angle = spanning_angle - 360; //start angle Packman
+	    double start_angle = 60; //start angle Packman
 	    
 	    for (int i = 0; i < b0DetNr; i++) {
 	    
@@ -771,7 +771,7 @@ void hFarFwdDefineDetectorsIP8(PHG4Reco *g4Reco)
         const double b0_radius = 24.5; //outer radius of B0-detector //- different from IP6
         const double spanning_angle = 240; //spanning angle Packman
         const double b0Ecal_z = 48;
-        double start_angle =  60; //start angle Packman //- mirrored wrt to IP6
+        double start_angle =  -120; //start angle Packman //- mirrored wrt to IP6
       
         for (int i = 0; i < b0DetNr; i++)
         {
@@ -924,7 +924,7 @@ void hFarFwdDefineDetectorsIP8(PHG4Reco *g4Reco)
 	    const double b0_radius = 24.5; //outer radius of B0-detector
 	    const double spanning_angle = 240; //spanning angle Packman
 	    const double b0Ecal_z = 48;
-	    double start_angle = 60; //start angle Packman
+	    double start_angle = -120; //start angle Packman
 	    
 	    for (int i = 0; i < b0DetNr; i++) {
 	    
