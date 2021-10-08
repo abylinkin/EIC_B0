@@ -13,6 +13,7 @@
 #include <eicg4zdc/EICG4ZDCSubsystem.h>
 
 #include <eicg4b0/EICG4B0Subsystem.h>
+#include <eicg4rp/EICG4RPSubsystem.h>
 
 #include <eiceval/FarForwardEvaluator.h>
 
@@ -348,6 +349,14 @@ void hFarFwdDefineDetectorsIP6(PHG4Reco *g4Reco)
   const int rpDetNr = 2;
   const double rp_zCent[rpDetNr] = {2600, 2800};
   const double rp_xCent[rpDetNr] = {-83.22, -92.20};
+  const double rpCu_zLen = .2; //B0 dead material length
+  const double rpSi_zLen = .03; //B0 Si length
+  const double hole_x = 10.0; //detector cut off for beam pipe
+  const double rppipe_x = 0.0; //detector cut off for beam pipe position
+  const double hole_y = 3.0; //detector cut off for beam pipe 
+  const double rp_x = 30.0; //detector width
+  const double rp_y = 10.0; //detector height
+  const double rot_y = 0.047; //rotation angle
   for (int i = 0; i < rpDetNr; i++)
   {
     ////*********************
@@ -370,22 +379,49 @@ void hFarFwdDefineDetectorsIP6(PHG4Reco *g4Reco)
     //// Disk design
     //// 50 cm in x
 
-    auto *detRP = new PHG4CylinderSubsystem(Form("rpTruth_%d", i), i);
+    auto *detRP = new EICG4RPSubsystem(Form("rpTruth_%d", 2*i), 2*i);
     detRP->SuperDetector("rpTruth");
     detRP->set_double_param("place_x", PosFlip(rp_xCent[i]));
     detRP->set_double_param("place_y", 0);
     detRP->set_double_param("place_z", rp_zCent[i] - hFarFwdBeamLine::enclosure_center);
-    detRP->set_double_param("rot_y", AngleFlip(0.047 * TMath::RadToDeg()));
-    detRP->set_double_param("radius", 0);
-    detRP->set_double_param("thickness", 25);  // This is intentionally made large 25cm radius
-    detRP->set_double_param("length", 0.03);
+    detRP->set_double_param("rot_y", AngleFlip(rot_y * TMath::RadToDeg()));
+    detRP->set_double_param("rp_x", rp_x);
+    detRP->set_double_param("rp_y", rp_y);
+    detRP->set_double_param("hole_x", hole_x);
+    detRP->set_double_param("hole_y", hole_y);
+    detRP->set_double_param("length", rpSi_zLen);
     detRP->set_string_param("material", "G4_Si");
+    detRP->set_double_param("detid",2*i);
+    detRP->set_double_param("pipe_x", rppipe_x);
+    detRP->set_double_param("pipe_y", 0);
+    detRP->set_double_param("pipe_z", 0);
     detRP->OverlapCheck(overlapCheck);
     detRP->SetMotherSubsystem(hFarFwdBeamLine::hFarFwdBeamLineEnclosure);
-
-    detRP->SetActive();
+    detRP->SetActive(true);
     if (verbosity) detRP->Verbosity(verbosity);
     g4Reco->registerSubsystem(detRP);
+
+    auto *detRPe = new EICG4RPSubsystem(Form("rpTruth_%d", 2*i+1), 2*i+1);
+    detRPe->SuperDetector("rpTruth");
+    detRPe->set_double_param("place_x", PosFlip(rp_xCent[i]));
+    detRPe->set_double_param("place_y", 0);
+    detRPe->set_double_param("place_z", rp_zCent[i] - hFarFwdBeamLine::enclosure_center + (rpSi_zLen+rpCu_zLen)/2);
+    detRPe->set_double_param("rot_y", AngleFlip(rot_y * TMath::RadToDeg()));
+    detRPe->set_double_param("rp_x", rp_x);
+    detRPe->set_double_param("rp_y", rp_y);
+    detRPe->set_double_param("hole_x", hole_x);
+    detRPe->set_double_param("hole_y", hole_y);
+    detRPe->set_double_param("length", rpCu_zLen);
+    detRPe->set_string_param("material", "G4_Cu");
+    detRPe->set_double_param("detid",2*i+1);
+    detRPe->set_double_param("pipe_x", rppipe_x);
+    detRPe->set_double_param("pipe_y", 0);
+    detRPe->set_double_param("pipe_z", 0);
+    detRPe->OverlapCheck(overlapCheck);
+    detRPe->SetMotherSubsystem(hFarFwdBeamLine::hFarFwdBeamLineEnclosure);
+    detRPe->SetActive(true);
+    if (verbosity) detRPe->Verbosity(verbosity);
+    g4Reco->registerSubsystem(detRPe);
   }
  
    //---------------------------------
@@ -423,9 +459,9 @@ void hFarFwdDefineDetectorsIP6(PHG4Reco *g4Reco)
           detB0->set_double_param("d_radius", d_radius);
           detB0->set_double_param("length", b0Si_zLen);
           detB0->set_string_param("material", "G4_Si");
-          detB0->set_double_param("detid",2*i);
           detB0->set_double_param("startAngle",start_angle);
           detB0->set_double_param("spanningAngle",spanning_angle);
+          detB0->set_double_param("detid",2*i);
           detB0->set_double_param("pipe_x", pipe_x);
           detB0->set_double_param("pipe_y", 0);
           detB0->set_double_param("pipe_z", 0);
