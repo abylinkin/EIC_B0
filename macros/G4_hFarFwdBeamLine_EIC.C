@@ -13,6 +13,7 @@
 #include <eicg4zdc/EICG4ZDCSubsystem.h>
 
 #include <eicg4b0/EICG4B0Subsystem.h>
+//#include <eicg4b0/EICG4B0HitTree.h>
 #include <eicg4rp/EICG4RPSubsystem.h>
 
 #include <eiceval/FarForwardEvaluator.h>
@@ -41,6 +42,7 @@ namespace Enable
   bool ZDC_DISABLE_BLACKHOLE = false;
   bool B0_DISABLE_HITPLANE = false;
   bool B0_FULLHITPLANE = false;
+//  bool B0_HITTREE = false;
 
   //enabled automatically in hFarFwdBeamLineInit(), unless overridden by user
   bool HFARFWD_MAGNETS_IP6 = false;
@@ -432,7 +434,7 @@ void hFarFwdDefineDetectorsIP6(PHG4Reco *g4Reco)
     if (Enable::B0_DISABLE_HITPLANE) {
 
 	// Choice 1 realistic detector
-
+	cout << "Realistic B0"<<endl;
         const int b0DetNr = 4;
         const double b0Mag_zCent = 590;
         const double b0Mag_zLen = 120;
@@ -498,7 +500,7 @@ void hFarFwdDefineDetectorsIP6(PHG4Reco *g4Reco)
           g4Reco->registerSubsystem(detB0e);
         }
       
-        auto *B0Ecal = new EICG4B0Subsystem("B0Ecal", 2*b0DetNr);
+        auto *B0Ecal = new EICG4B0Subsystem(Form("b0Truth_%d", 2*b0DetNr), 2*b0DetNr);
         B0Ecal->SuperDetector("b0Truth");
       //  B0Ecal->set_int_param("ispipe", 0); //for future pipe implementation
         B0Ecal->set_double_param("pipe_hole", pipe_hole);
@@ -522,7 +524,7 @@ void hFarFwdDefineDetectorsIP6(PHG4Reco *g4Reco)
         B0Ecal->SetMotherSubsystem(hFarFwdBeamLine::B0Magnet);
         g4Reco->registerSubsystem(B0Ecal);
       
-        auto *B0Ecale = new EICG4B0Subsystem("B0Ecale", 2*b0DetNr + 1);
+        auto *B0Ecale = new EICG4B0Subsystem(Form("b0Truth_%d", 2*b0DetNr+1), 2*b0DetNr+1);
         B0Ecal->SuperDetector("b0Truth");
       //  B0Ecale->set_int_param("ispipe", 0); //for future pipe implementation
         B0Ecale->set_double_param("pipe_hole", pipe_hole);
@@ -551,6 +553,7 @@ void hFarFwdDefineDetectorsIP6(PHG4Reco *g4Reco)
        if (Enable::B0_FULLHITPLANE) {
 
 	// Choice 2 circular hit planes
+	cout << "Circular hit planes"<<endl;
 
        	    const int b0DetNr = 4;
        	    
@@ -585,6 +588,7 @@ void hFarFwdDefineDetectorsIP6(PHG4Reco *g4Reco)
 
         /// Fun4All default B0 planes
 	/// Choice 3 Hit planes with real detector geometry
+	cout << "Realistic hit planes"<<endl;
         	
 	    const int b0DetNr = 4;
 	    const double b0Mag_zCent = 590;
@@ -602,7 +606,7 @@ void hFarFwdDefineDetectorsIP6(PHG4Reco *g4Reco)
 	    
 	    for (int i = 0; i < b0DetNr; i++) {
 	    
-	        auto *detB0 = new EICG4B0Subsystem(Form("b0Truth_%d", 2*i), 2*i);
+	        auto *detB0 = new EICG4B0Subsystem(Form("b0Truth_%d", i), i);
 	        detB0->SuperDetector("b0Truth");
 	        detB0->set_double_param("place_x", 0);
 	        detB0->set_double_param("place_y", 0);
@@ -860,7 +864,7 @@ void hFarFwdDefineDetectorsIP8(PHG4Reco *g4Reco)
           g4Reco->registerSubsystem(detB0e);
         }
       
-        auto *B0Ecal = new EICG4B0Subsystem("B0Ecal", 2*b0DetNr);
+        auto *B0Ecal = new EICG4B0Subsystem(Form("b0Truth_%d", 2*b0DetNr), 2*b0DetNr);
         B0Ecal->SuperDetector("b0Truth");
       //  B0Ecal->set_int_param("ispipe", 0); //for future pipe implementation
         B0Ecal->set_double_param("pipe_hole", pipe_hole);
@@ -884,7 +888,7 @@ void hFarFwdDefineDetectorsIP8(PHG4Reco *g4Reco)
         B0Ecal->SetMotherSubsystem(hFarFwdBeamLine::B0Magnet);
         g4Reco->registerSubsystem(B0Ecal);
       
-        auto *B0Ecale = new EICG4B0Subsystem("B0Ecale", 2*b0DetNr + 1);
+        auto *B0Ecale = new EICG4B0Subsystem(Form("b0Truth_%d", 2*b0DetNr+1), 2*b0DetNr+1);
         B0Ecal->SuperDetector("b0Truth");
       //  B0Ecale->set_int_param("ispipe", 0); //for future pipe implementation
         B0Ecale->set_double_param("pipe_hole", pipe_hole);
