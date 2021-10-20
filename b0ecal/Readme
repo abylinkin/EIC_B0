@@ -1,0 +1,4 @@
+1. G4_B0Ecal.C macro
+2. B0_tower_mapping.txt
+3. Adjusted Fun4All_G4_EICDetector.C so it calls the new function for B0.
+4. Adjusted G4Setup_EICDetector.C so it also calls the new function for B0.
